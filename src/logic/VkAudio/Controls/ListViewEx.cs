@@ -1,63 +1,60 @@
-﻿namespace VkAudio.Controls
+﻿// Type: VkAudio.Controls.ListViewEx
+// Assembly: VkAudio, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c658c4eebe768023
+// MVID: 92E79938-A83A-4CC7-8B72-61426CF41836
+// Assembly location: D:\Projects\null\vk_winamp\build\VkAudio.dll
+
+using System;
+using System.Windows.Forms;
+
+namespace VkAudio.Controls
 {
-    using System;
-    using System.Threading;
-    using System.Windows.Forms;
+  public class ListViewEx : ListView
+  {
+    private const int WM_HSCROLL = 276;
+    private const int WM_VSCROLL = 277;
+    private const int MOUSEWHEEL = 522;
+    private const int KEYDOWN = 256;
+    private bool checkFromDoubleClick;
 
-    public class ListViewEx : ListView
+    public event EventHandler Scroll;
+
+    protected void OnScroll()
     {
-        private bool checkFromDoubleClick;
-        private const int KEYDOWN = 0x100;
-        private const int MOUSEWHEEL = 0x20a;
-        private const int WM_HSCROLL = 0x114;
-        private const int WM_VSCROLL = 0x115;
-
-        public event EventHandler Scroll;
-
-        protected override void OnItemCheck(ItemCheckEventArgs ice)
-        {
-            if (this.checkFromDoubleClick)
-            {
-                ice.NewValue = ice.CurrentValue;
-                this.checkFromDoubleClick = false;
-            }
-            else
-            {
-                base.OnItemCheck(ice);
-            }
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            this.checkFromDoubleClick = false;
-            base.OnKeyDown(e);
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            if ((e.Button == MouseButtons.Left) && (e.Clicks > 1))
-            {
-                this.checkFromDoubleClick = true;
-            }
-            base.OnMouseDown(e);
-        }
-
-        protected void OnScroll()
-        {
-            if (this.Scroll != null)
-            {
-                this.Scroll(this, EventArgs.Empty);
-            }
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (((m.Msg == 0x20a) || (m.Msg == 0x115)) || ((m.Msg == 0x100) && ((m.WParam == ((IntPtr) 40)) || (m.WParam == ((IntPtr) 0x23)))))
-            {
-                this.OnScroll();
-            }
-        }
+      if (this.Scroll == null)
+        return;
+      this.Scroll((object) this, EventArgs.Empty);
     }
-}
 
+    protected override void WndProc(ref Message m)
+    {
+      base.WndProc(ref m);
+      if (m.Msg != 522 && m.Msg != 277 && (m.Msg != 256 || !(m.WParam == (IntPtr) 40) && !(m.WParam == (IntPtr) 35)))
+        return;
+      this.OnScroll();
+    }
+
+    protected override void OnItemCheck(ItemCheckEventArgs ice)
+    {
+      if (this.checkFromDoubleClick)
+      {
+        ice.NewValue = ice.CurrentValue;
+        this.checkFromDoubleClick = false;
+      }
+      else
+        base.OnItemCheck(ice);
+    }
+
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+      if (e.Button == MouseButtons.Left && e.Clicks > 1)
+        this.checkFromDoubleClick = true;
+      base.OnMouseDown(e);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+      this.checkFromDoubleClick = false;
+      base.OnKeyDown(e);
+    }
+  }
+}
