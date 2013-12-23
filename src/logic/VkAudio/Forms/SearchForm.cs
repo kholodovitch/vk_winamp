@@ -128,7 +128,7 @@ namespace VkAudio.Forms
     private void InitializeComponent()
     {
       this.components = (IContainer) new Container();
-      ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof (SearchForm));
+	  System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchForm));
       this.panMain = new Panel();
       this.pbBassLoading = new PictureBox();
       this.lPreviewHeader = new Label();
@@ -469,13 +469,12 @@ namespace VkAudio.Forms
       this.tbPreviewProgress.TickFrequency = 10;
       this.tbPreviewProgress.ValueChanged += new EventHandler(this.tbPreviewProgress_ValueChanged);
       this.AutoScaleDimensions = new SizeF(6f, 13f);
-      this.AutoScaleMode = AutoScaleMode.Font;
       this.BackColor = Color.White;
       this.ClientSize = new Size(417, 513);
       this.Controls.Add((Control) this.panMain);
       this.Controls.Add((Control) this.panBottom);
       this.DoubleBuffered = true;
-      this.Icon = (Icon) componentResourceManager.GetObject("$this.Icon");
+	  this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MinimizeBox = false;
       this.MinimumSize = new Size(425, 540);
       this.Name = "SearchForm";

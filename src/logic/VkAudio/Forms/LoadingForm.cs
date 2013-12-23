@@ -196,13 +196,11 @@ namespace VkAudio.Forms
       this.btnCancel.Text = "Отмена";
       this.btnCancel.UseVisualStyleBackColor = true;
       this.AutoScaleDimensions = new SizeF(6f, 13f);
-      this.AutoScaleMode = AutoScaleMode.Font;
       this.BackColor = Color.White;
       this.ClientSize = new Size(327, 54);
       this.Controls.Add((Control) this.btnCancel);
       this.Controls.Add((Control) this.lStatus);
       this.Controls.Add((Control) this.pbMain);
-      this.FormBorderStyle = FormBorderStyle.None;
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "LoadingForm";

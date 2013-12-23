@@ -162,7 +162,7 @@ namespace VkAudio.Forms
     private void InitializeComponent()
     {
       this.components = (IContainer) new Container();
-      ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof (SettingsForm));
+      ComponentResourceManager resources = new ComponentResourceManager(typeof(SettingsForm));
       this.lLoginCaption = new Label();
       this.lPassCaption = new Label();
       this.tbEmail = new TextBox();
@@ -343,7 +343,6 @@ namespace VkAudio.Forms
       this.tbProxyPort.TabIndex = 6;
       this.tbProxyPort.KeyPress += new KeyPressEventHandler(this.tbProxyPort_KeyPress);
       this.AutoScaleDimensions = new SizeF(6f, 13f);
-      this.AutoScaleMode = AutoScaleMode.Font;
       this.BackColor = Color.White;
       this.ClientSize = new Size(292, 324);
       this.Controls.Add((Control) this.cbUseProxy);
@@ -355,8 +354,7 @@ namespace VkAudio.Forms
       this.Controls.Add((Control) this.tbEmail);
       this.Controls.Add((Control) this.lPassCaption);
       this.Controls.Add((Control) this.lLoginCaption);
-      this.FormBorderStyle = FormBorderStyle.FixedSingle;
-      this.Icon = (Icon) componentResourceManager.GetObject("$this.Icon");
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "SettingsForm";

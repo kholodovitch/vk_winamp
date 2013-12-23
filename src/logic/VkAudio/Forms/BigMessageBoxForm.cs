@@ -43,7 +43,7 @@ namespace VkAudio.Forms
 
     private void InitializeComponent()
     {
-      ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof (BigMessageBoxForm));
+      ComponentResourceManager resources = new ComponentResourceManager(typeof (BigMessageBoxForm));
       this.panBottom = new Panel();
       this.btnClose = new Button();
       this.tbMessage = new TextBox();
@@ -75,12 +75,11 @@ namespace VkAudio.Forms
       this.tbMessage.Size = new Size(341, 337);
       this.tbMessage.TabIndex = 2;
       this.AutoScaleDimensions = new SizeF(6f, 13f);
-      this.AutoScaleMode = AutoScaleMode.Font;
       this.BackColor = Color.White;
       this.ClientSize = new Size(341, 379);
       this.Controls.Add((Control) this.tbMessage);
       this.Controls.Add((Control) this.panBottom);
-      this.Icon = (Icon) componentResourceManager.GetObject("$this.Icon");
+	  this.Icon = (Icon)resources.GetObject("$this.Icon");
       this.MinimizeBox = false;
       this.MinimumSize = new Size(349, 406);
       this.Name = "BigMessageBoxForm";
