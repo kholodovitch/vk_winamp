@@ -24,7 +24,7 @@ namespace VkAudio.Classes
       VkSongListExtension.Download(songs, Owner, selectedPath, false, (Action) (() => num = (int) MessageBox.Show(songs.Count > 1 ? "Файлы сохранены!" : "Файл сохранён!")));
     }
 
-    public static void Download(this List<VkSong> songs, IWin32Window Owner, string Path, bool IdsAsNames, Action SuccessHandler)
+    public static void Download(this List<VkSong> songs, IWin32Window Owner, string path, bool IdsAsNames, Action SuccessHandler)
     {
       VkSong currentSong = (VkSong) null;
       WebClient client = (WebClient) null;
@@ -34,8 +34,8 @@ namespace VkAudio.Classes
       object locker = new object();
       ThreadWorker.PerformOperation(Owner, (ThreadOperation) (() =>
       {
-        if (!Directory.Exists(Path))
-          Directory.CreateDirectory(Path);
+        if (!Directory.Exists(path))
+          Directory.CreateDirectory(path);
         foreach (VkSong item_0 in songs)
         {
           string local_1 = "";
@@ -43,7 +43,7 @@ namespace VkAudio.Classes
           {
             currentSong = item_0;
             ThreadWorker.UpdateStatus("Скачивание " + item_0.ToString());
-            local_1 = Path.Combine(Path, IdsAsNames ? VkSongListExtension.ProcessPath(item_0.ID + ".mp3") : VkSongListExtension.ProcessPath(item_0.Artist + " - " + item_0.Title + ".mp3")).Replace("/", "\\");
+            local_1 = Path.Combine(path, IdsAsNames ? VkSongListExtension.ProcessPath(item_0.ID + ".mp3") : VkSongListExtension.ProcessPath(item_0.Artist + " - " + item_0.Title + ".mp3")).Replace("/", "\\");
             item_0.LocalFilePath = local_1;
           }
           string local_3 = Path.Combine(Common.SongsCachePath, VkSongListExtension.ProcessPath(item_0.ID + ".mp3")).Replace("/", "\\");

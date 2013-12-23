@@ -10,12 +10,12 @@ namespace VkAudio.Classes
 {
   public static class Serialization
   {
-    public static void Serialize(object obj, string Path)
+    public static void Serialize(object obj, string path)
     {
       XmlSerializer xmlSerializer = new XmlSerializer(obj.GetType());
-      if (!Directory.Exists(Path.GetDirectoryName(Path)))
-        Directory.CreateDirectory(Path.GetDirectoryName(Path));
-      using (FileStream fileStream = new FileStream(Path, FileMode.Create))
+      if (!Directory.Exists(Path.GetDirectoryName(path)))
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+      using (FileStream fileStream = new FileStream(path, FileMode.Create))
         xmlSerializer.Serialize((Stream) fileStream, obj);
     }
 

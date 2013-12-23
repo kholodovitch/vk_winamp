@@ -25,39 +25,39 @@ namespace VkAudio.Classes
       Exception exception = (Exception) null;
       Thread th = new Thread((ThreadStart) (() =>
       {
-        try
-        {
-          o();
-        }
-        catch (ThreadAbortException exception_0)
-        {
-        }
-        catch (Exception exception_1)
-        {
-          result = false;
-        }
-        ControlExtension.InvokeOperation((Control) Owner, (ThreadOperation) (() =>
-        {
-          if (exception_1 != null && !exception_1.Message.Contains("request was aborted") && !(exception_1 is UserException))
-            throw exception_1;
-          if (exception_1 != null && exception_1 is UserException)
-          {
-            int temp_58 = (int) MessageBox.Show((IWin32Window) Owner, exception_1.Message, "Ошибка");
-            result = false;
-          }
-          if (!result)
-            return;
-          if (onEnd == null)
-            return;
-          try
-          {
-            onEnd();
-          }
-          catch (Exception exception_2)
-          {
-            int temp_48 = (int) MessageBox.Show((IWin32Window) Owner, exception_2.Message, "Ошибка");
-          }
-        }));
+	      try
+	      {
+		      o();
+	      }
+	      catch (ThreadAbortException exception_0)
+	      {
+	      }
+	      catch (Exception exception_1)
+	      {
+		      result = false;
+		      ControlExtension.InvokeOperation((Control) Owner, (ThreadOperation) (() =>
+			      {
+				      if (exception_1 != null && !exception_1.Message.Contains("request was aborted") && !(exception_1 is UserException))
+					      throw exception_1;
+				      if (exception_1 != null && exception_1 is UserException)
+				      {
+					      int temp_58 = (int) MessageBox.Show((IWin32Window) Owner, exception_1.Message, "Ошибка");
+					      result = false;
+				      }
+				      if (!result)
+					      return;
+				      if (onEnd == null)
+					      return;
+				      try
+				      {
+					      onEnd();
+				      }
+				      catch (Exception exception_2)
+				      {
+					      int temp_48 = (int) MessageBox.Show((IWin32Window) Owner, exception_2.Message, "Ошибка");
+				      }
+			      }));
+	      }
       }));
       th.Start();
       return (Action) (() =>

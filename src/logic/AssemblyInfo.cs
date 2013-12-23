@@ -1,10 +1,8 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: Guid("4d650776-93a1-488d-8eff-c44bd51a71aa")]
-[assembly: Extension]
 [assembly: AssemblyTitle("VkAudio")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

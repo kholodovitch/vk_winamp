@@ -12,18 +12,18 @@ namespace VkAudio.Classes
   {
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static bool EnableWindow(IntPtr hWnd, bool bEnable);
+    public extern static bool EnableWindow(IntPtr hWnd, bool bEnable);
 
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static bool GetWindowRect(IntPtr hWnd, out WinAPI.RECT lpRect);
+	public extern static bool GetWindowRect(IntPtr hWnd, out WinAPI.RECT lpRect);
 
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static bool SetForegroundWindow(IntPtr hWnd);
+	public extern static bool SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll")]
-    public static int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+	public extern static int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
     public struct RECT
     {

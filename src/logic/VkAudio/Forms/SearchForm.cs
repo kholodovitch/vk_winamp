@@ -168,9 +168,7 @@ namespace VkAudio.Forms
       this.chDuration = new ColumnHeader();
       this.tbPreviewProgress = new TrackBarEx();
       this.panMain.SuspendLayout();
-      this.pbBassLoading.BeginInit();
       this.gbResults.SuspendLayout();
-      this.pbLoading.BeginInit();
       this.cmsSearchResults.SuspendLayout();
       this.gbSearch.SuspendLayout();
       this.gbPreview.SuspendLayout();
@@ -489,10 +487,8 @@ namespace VkAudio.Forms
       this.Resize += new EventHandler(this.SearchForm_Resize);
       this.panMain.ResumeLayout(false);
       this.panMain.PerformLayout();
-      this.pbBassLoading.EndInit();
       this.gbResults.ResumeLayout(false);
       this.gbResults.PerformLayout();
-      this.pbLoading.EndInit();
       this.cmsSearchResults.ResumeLayout(false);
       this.gbSearch.ResumeLayout(false);
       this.gbSearch.PerformLayout();

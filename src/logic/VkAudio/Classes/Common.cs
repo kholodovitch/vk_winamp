@@ -75,7 +75,7 @@ namespace VkAudio.Classes
     }
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    public extern static IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
     public static IWebProxy GetRequestProxy()
     {
