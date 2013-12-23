@@ -55,9 +55,7 @@
         {
             if (mainForm != null)
             {
-                ControlExtension.InvokeOperation(mainForm.pbMain, delegate {
-                    mainForm.pbMain.Value += value;
-                });
+                mainForm.pbMain.InvokeOperation((ThreadOperation) (() => (mainForm.pbMain.Value += value)));
             }
         }
 
@@ -209,7 +207,7 @@
 
         public static void UpdateStatus(string LoadingText)
         {
-            ControlExtension.InvokeOperation(mainForm.lStatus, delegate {
+            mainForm.lStatus.InvokeOperation(delegate {
                 mainForm.lStatus.Text = LoadingText;
                 mainForm.ttMain.SetToolTip(mainForm.lStatus, mainForm.lStatus.Text);
             });

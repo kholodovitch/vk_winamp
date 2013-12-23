@@ -11,14 +11,6 @@
     {
         private static NativeWindow _PlayerAccessorWindow;
         private static NativeWindow _PlayerWindow;
-        [CompilerGenerated]
-        private static IntPtr <PlayerHandle>k__BackingField;
-        [CompilerGenerated]
-        private static IntPtr <PlayerWindowHandle>k__BackingField;
-        [CompilerGenerated]
-        private static bool <ProcessStreaming>k__BackingField;
-        [CompilerGenerated]
-        private static bool <UseUnicode>k__BackingField;
 
         public static IWebProxy GetRequestProxy()
         {

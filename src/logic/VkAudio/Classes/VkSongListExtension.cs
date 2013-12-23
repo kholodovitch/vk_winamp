@@ -9,11 +9,9 @@
     using TagLib;
     using TagLib.Id3v2;
 
-    [Extension]
     public static class VkSongListExtension
     {
-        [Extension]
-        public static void Download(List<VkSong> songs, IWin32Window Owner, string Path, bool IdsAsNames, Action SuccessHandler)
+        public static void Download(this List<VkSong> songs, IWin32Window Owner, string Path, bool IdsAsNames, Action SuccessHandler)
         {
             VkSong currentSong = null;
             WebClient client = null;
@@ -156,8 +154,7 @@
             }, SuccessHandler);
         }
 
-        [Extension]
-        public static void DownloadInterfaced(List<VkSong> songs, IWin32Window Owner)
+        public static void DownloadInterfaced(this List<VkSong> songs, IWin32Window Owner)
         {
             Action successHandler = null;
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -169,7 +166,7 @@
                     <>c__DisplayClass2 class2;
                     successHandler = new Action(class2, (IntPtr) this.<DownloadInterfaced>b__0);
                 }
-                Download(songs, Owner, selectedPath, false, successHandler);
+                songs.Download(Owner, selectedPath, false, successHandler);
             }
         }
 

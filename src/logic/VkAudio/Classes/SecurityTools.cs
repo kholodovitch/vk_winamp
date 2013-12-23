@@ -21,9 +21,10 @@
             }
             try
             {
-                TripleDESCryptoServiceProvider provider = new TripleDESCryptoServiceProvider();
-                provider.IV = new byte[] { 0x38, 0x7d, 0x43, 11, 0, 12, 0x62, 0xc9 };
-                provider.Key = GetEncryptionKey();
+                TripleDESCryptoServiceProvider provider = new TripleDESCryptoServiceProvider {
+                    IV = new byte[] { 0x38, 0x7d, 0x43, 11, 0, 12, 0x62, 0xc9 },
+                    Key = GetEncryptionKey()
+                };
                 byte[] buffer = null;
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -44,9 +45,10 @@
 
         public static byte[] EncryptString(string str)
         {
-            TripleDESCryptoServiceProvider provider = new TripleDESCryptoServiceProvider();
-            provider.IV = new byte[] { 0x38, 0x7d, 0x43, 11, 0, 12, 0x62, 0xc9 };
-            provider.Key = GetEncryptionKey();
+            TripleDESCryptoServiceProvider provider = new TripleDESCryptoServiceProvider {
+                IV = new byte[] { 0x38, 0x7d, 0x43, 11, 0, 12, 0x62, 0xc9 },
+                Key = GetEncryptionKey()
+            };
             byte[] bytes = Encoding.UTF8.GetBytes(str);
             byte[] buffer2 = null;
             using (MemoryStream stream = new MemoryStream())

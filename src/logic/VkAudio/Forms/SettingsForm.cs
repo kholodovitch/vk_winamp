@@ -98,13 +98,14 @@
             }
             else
             {
-                Settings settings = new Settings();
-                settings.Email = this.tbEmail.Text;
-                settings.EncryptedPass = SecurityTools.EncryptString(this.tbPass.Text);
-                settings.AddPrefix = this.cbAddPrefix.Checked;
-                settings.UseProxy = this.cbUseProxy.Checked;
-                settings.UseIeProxy = this.cbUseIeProxy.Checked;
-                settings.ProxyAddress = this.tbProxyAddress.Text;
+                Settings settings = new Settings {
+                    Email = this.tbEmail.Text,
+                    EncryptedPass = SecurityTools.EncryptString(this.tbPass.Text),
+                    AddPrefix = this.cbAddPrefix.Checked,
+                    UseProxy = this.cbUseProxy.Checked,
+                    UseIeProxy = this.cbUseIeProxy.Checked,
+                    ProxyAddress = this.tbProxyAddress.Text
+                };
                 int result = 80;
                 int.TryParse(this.tbProxyPort.Text, out result);
                 settings.ProxyPort = result;

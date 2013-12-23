@@ -17,8 +17,6 @@
     public class SearchForm : Form
     {
         private List<VkSong> _SelectedSongs;
-        [CompilerGenerated]
-        private static SearchForm <CurrentForm>k__BackingField;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnCopyUrl;
         private System.Windows.Forms.Button btnOk;
@@ -74,8 +72,9 @@
             ListViewItemSelectionChangedEventHandler handler = null;
             ItemCheckedEventHandler handler2 = null;
             this.lastUrl = string.Empty;
-            Timer timer = new Timer();
-            timer.Interval = 100;
+            Timer timer = new Timer {
+                Interval = 100
+            };
             this.previewTimer = timer;
             this.query = "";
             this.posChangeLocker = new object();
@@ -96,15 +95,13 @@
                     {
                         CS$<>9__CachedAnonymousMethodDelegate8 = new Func<VkSong, bool>(null, (IntPtr) <.ctor>b__3);
                     }
-                    this.tsmiShowLyrics.Enabled = Enumerable.Any<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.SelectedItems), CS$<>9__CachedAnonymousMethodDelegate7), CS$<>9__CachedAnonymousMethodDelegate8);
+                    this.tsmiShowLyrics.Enabled = Enumerable.Any<VkSong>(Enumerable.Select<ListViewItem, VkSong>(this.lvResults.SelectedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate7), CS$<>9__CachedAnonymousMethodDelegate8);
                 };
             }
             this.lvResults.ItemSelectionChanged += handler;
             if (handler2 == null)
             {
-                handler2 = delegate (object ls, ItemCheckedEventArgs le) {
-                    this.tsmiSaveChecked.Enabled = this.lvResults.CheckedItems.Count > 0;
-                };
+                handler2 = (ItemCheckedEventHandler) ((ls, le) => (this.tsmiSaveChecked.Enabled = this.lvResults.CheckedItems.Count > 0));
             }
             this.lvResults.ItemChecked += handler2;
             this.rbSearch.CheckedChanged += new EventHandler(this.ModeRadio_CheckedChanged);
@@ -128,7 +125,7 @@
 
         private void AddSongs(List<VkSong> songs)
         {
-            IEnumerable<ListViewItem> enumerable = Enumerable.OfType<ListViewItem>(this.lvResults.Items);
+            IEnumerable<ListViewItem> enumerable = this.lvResults.Items.OfType<ListViewItem>();
             List<ListViewItem> list = new List<ListViewItem>();
             using (List<VkSong>.Enumerator enumerator = songs.GetEnumerator())
             {
@@ -145,9 +142,10 @@
                     if (!Enumerable.Any<ListViewItem>(enumerable, func))
                     {
                         TimeSpan span = new TimeSpan(0, 0, s.Duration);
-                        ListViewItem item = new ListViewItem(new string[] { s.Artist + " - " + s.Title, span.ToString(@"mm\:ss") });
-                        item.Tag = s;
-                        item.ForeColor = (s.LyricsID > 0) ? Color.Blue : Color.Black;
+                        ListViewItem item = new ListViewItem(new string[] { s.Artist + " - " + s.Title, span.ToString(@"mm\:ss") }) {
+                            Tag = s,
+                            ForeColor = (s.LyricsID > 0) ? Color.Blue : Color.Black
+                        };
                         list.Add(item);
                     }
                 }
@@ -189,7 +187,7 @@
                 {
                     CS$<>9__CachedAnonymousMethodDelegatec = new Func<ListViewItem, VkSong>(null, (IntPtr) <btnOk_Click>b__9);
                 }
-                songs = Enumerable.ToList<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.CheckedItems), CS$<>9__CachedAnonymousMethodDelegatec));
+                songs = Enumerable.Select<ListViewItem, VkSong>(this.lvResults.CheckedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegatec).ToList<VkSong>();
                 if (this.cbDownloadImmediate.Checked)
                 {
                     if (successHandler == null)
@@ -197,7 +195,7 @@
                         <>c__DisplayClassf classf;
                         successHandler = new Action(classf, (IntPtr) this.<btnOk_Click>b__a);
                     }
-                    VkSongListExtension.Download(songs, this, Common.SongsCachePath, true, successHandler);
+                    songs.Download(this, Common.SongsCachePath, true, successHandler);
                 }
                 else
                 {
@@ -207,9 +205,7 @@
                     }
                     else
                     {
-                        songs.ForEach(delegate (VkSong vs) {
-                            vs.LocalFilePath = "";
-                        });
+                        songs.ForEach((Action<VkSong>) (vs => (vs.LocalFilePath = "")));
                     }
                     this.SelectedSongs.AddRange(songs);
                     base.Close();
@@ -293,7 +289,7 @@
             {
                 CS$<>9__CachedAnonymousMethodDelegate28 = new Func<ListViewItem, bool>(null, (IntPtr) <GetActiveResultsCount>b__27);
             }
-            return Enumerable.Count<ListViewItem>(Enumerable.Where<ListViewItem>(Enumerable.OfType<ListViewItem>(this.lvResults.Items), CS$<>9__CachedAnonymousMethodDelegate28));
+            return Enumerable.Where<ListViewItem>(this.lvResults.Items.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate28).Count<ListViewItem>();
         }
 
         private void InitializeComponent()
@@ -748,9 +744,7 @@
                     songs = VkTools.GetGroupUserSongs(this.tbSearch.Text, out this.totalCount);
                     this.lastUrl = VkTools.GetGroupPersonAudioAddress(this.tbSearch.Text);
                 }
-            }, false, "Идёт поиск...", null, delegate (object ls, EventArgs le) {
-                VkTools.FreeResources();
-            }, new Action(class2, (IntPtr) this.<MakeSearch>b__13));
+            }, false, "Идёт поиск...", null, (ls, le) => VkTools.FreeResources(), new Action(class2, (IntPtr) this.<MakeSearch>b__13));
         }
 
         private void ModeRadio_CheckedChanged(object sender, EventArgs e)
@@ -1031,7 +1025,7 @@
             {
                 CS$<>9__CachedAnonymousMethodDelegate2f = new Func<ListViewItem, VkSong>(null, (IntPtr) <tsmiPreview_Click>b__2e);
             }
-            VkSong song = Enumerable.FirstOrDefault<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.SelectedItems), CS$<>9__CachedAnonymousMethodDelegate2f));
+            VkSong song = Enumerable.Select<ListViewItem, VkSong>(this.lvResults.SelectedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate2f).FirstOrDefault<VkSong>();
             if (song != null)
             {
                 this.InitPreview(song, true);
@@ -1044,7 +1038,7 @@
             {
                 CS$<>9__CachedAnonymousMethodDelegate1e = new Func<ListViewItem, VkSong>(null, (IntPtr) <tsmiSaveChecked_Click>b__1d);
             }
-            VkSongListExtension.DownloadInterfaced(Enumerable.ToList<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.CheckedItems), CS$<>9__CachedAnonymousMethodDelegate1e)), this);
+            Enumerable.Select<ListViewItem, VkSong>(this.lvResults.CheckedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate1e).ToList<VkSong>().DownloadInterfaced(this);
         }
 
         private void tsmiSaveSelected_Click(object sender, EventArgs e)
@@ -1053,7 +1047,7 @@
             {
                 CS$<>9__CachedAnonymousMethodDelegate1c = new Func<ListViewItem, VkSong>(null, (IntPtr) <tsmiSaveSelected_Click>b__1b);
             }
-            VkSongListExtension.DownloadInterfaced(Enumerable.ToList<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.SelectedItems), CS$<>9__CachedAnonymousMethodDelegate1c)), this);
+            Enumerable.Select<ListViewItem, VkSong>(this.lvResults.SelectedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate1c).ToList<VkSong>().DownloadInterfaced(this);
         }
 
         private void tsmiShowLyrics_Click(object sender, EventArgs e)
@@ -1067,14 +1061,12 @@
             {
                 CS$<>9__CachedAnonymousMethodDelegate23 = new Func<VkSong, bool>(null, (IntPtr) <tsmiShowLyrics_Click>b__20);
             }
-            VkSong s = Enumerable.FirstOrDefault<VkSong>(Enumerable.Select<ListViewItem, VkSong>(Enumerable.OfType<ListViewItem>(this.lvResults.SelectedItems), CS$<>9__CachedAnonymousMethodDelegate22), CS$<>9__CachedAnonymousMethodDelegate23);
+            VkSong s = Enumerable.FirstOrDefault<VkSong>(Enumerable.Select<ListViewItem, VkSong>(this.lvResults.SelectedItems.OfType<ListViewItem>(), CS$<>9__CachedAnonymousMethodDelegate22), CS$<>9__CachedAnonymousMethodDelegate23);
             if (s != null)
             {
                 if (successHandler == null)
                 {
-                    successHandler = delegate (string str) {
-                        new BigMessageBoxForm("Текст песни " + s.ToString(), str).ShowDialog(this);
-                    };
+                    successHandler = (Action<string>) (str => new BigMessageBoxForm("Текст песни " + s.ToString(), str).ShowDialog(this));
                 }
                 s.GetLyrics(this, successHandler);
             }

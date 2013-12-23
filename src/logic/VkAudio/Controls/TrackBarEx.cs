@@ -6,8 +6,6 @@
 
     public class TrackBarEx : TrackBar
     {
-        [CompilerGenerated]
-        private bool <IsSliding>k__BackingField;
         private int drawingDistance = 13;
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -80,19 +78,7 @@
             }
         }
 
-        public bool IsSliding
-        {
-            [CompilerGenerated]
-            get
-            {
-                return this.<IsSliding>k__BackingField;
-            }
-            [CompilerGenerated]
-            private set
-            {
-                this.<IsSliding>k__BackingField = value;
-            }
-        }
+        public bool IsSliding { get; private set; }
     }
 }
 

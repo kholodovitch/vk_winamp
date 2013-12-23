@@ -4,11 +4,9 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Forms;
 
-    [Extension]
     public static class ControlExtension
     {
-        [Extension]
-        public static void InvokeOperation(Control TargetControl, ThreadOperation o)
+        public static void InvokeOperation(this Control TargetControl, ThreadOperation o)
         {
             if (TargetControl.InvokeRequired)
             {

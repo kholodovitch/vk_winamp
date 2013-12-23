@@ -63,7 +63,7 @@
                 }
                 if ((Owner != null) && (Owner is Form))
                 {
-                    ControlExtension.InvokeOperation(Owner as Form, finalizer);
+                    (Owner as Form).InvokeOperation(finalizer);
                 }
                 else
                 {
@@ -92,7 +92,7 @@
                     exception = exception2;
                     result = false;
                 }
-                ControlExtension.InvokeOperation(Owner, delegate {
+                Owner.InvokeOperation(delegate {
                     if (((exception != null) && !exception.Message.Contains("request was aborted")) && !(exception is UserException))
                     {
                         throw exception;

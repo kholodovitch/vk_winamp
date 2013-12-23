@@ -16,9 +16,6 @@
     [ClassInterface(ClassInterfaceType.AutoDual), Guid("594CC9F5-DA3C-4433-A8CD-20B70F19CCB7"), ComVisible(true)]
     public class VkAudioClass
     {
-        [CompilerGenerated]
-        private static VkAudioClass <Instance>k__BackingField;
-
         public event LoadUrlDelegate LoadUrlInvoked;
 
         public event PositionChangedDelegate PositionChanged;
@@ -34,9 +31,7 @@
             {
                 list = new List<VkSong>();
             }
-            list.RemoveAll(delegate (VkSong s) {
-                return songs.Exists(ss => ss.ID == s.ID);
-            });
+            list.RemoveAll(s => songs.Exists(ss => ss.ID == s.ID));
             list.AddRange(songs);
             Serialization.Serialize(list, Common.CachePath);
         }
@@ -52,13 +47,13 @@
                     return new string[0];
                 }
                 List<VkSong> songs = this.GetSongs(data);
-                VkSongListExtension.Download(songs, Common.PlayerWindow, Common.SongsCachePath, true, null);
+                songs.Download(Common.PlayerWindow, Common.SongsCachePath, true, null);
                 this.CacheData(songs);
                 if (CS$<>9__CachedAnonymousMethodDelegateb == null)
                 {
                     CS$<>9__CachedAnonymousMethodDelegateb = new Func<VkSong, bool>(null, (IntPtr) <CacheSongs>b__a);
                 }
-                return this.GetArray(Enumerable.ToList<VkSong>(Enumerable.Where<VkSong>(songs, CS$<>9__CachedAnonymousMethodDelegateb)));
+                return this.GetArray(Enumerable.Where<VkSong>(songs, CS$<>9__CachedAnonymousMethodDelegateb).ToList<VkSong>());
             }
             catch (Exception exception)
             {
@@ -104,7 +99,7 @@
                     }
                     else
                     {
-                        VkSongListExtension.DownloadInterfaced(this.GetSongs(data), Common.PlayerWindow);
+                        this.GetSongs(data).DownloadInterfaced(Common.PlayerWindow);
                     }
                 }
                 catch (Exception exception)
@@ -145,15 +140,16 @@
             List<VkSong> list = new List<VkSong>();
             for (int i = 0; i < arr.Length; i += 8)
             {
-                VkSong item = new VkSong();
-                item.ID = arr[i];
-                item.Artist = arr[i + 1];
-                item.Title = arr[i + 2];
-                item.Duration = int.Parse(arr[i + 3]);
-                item.LyricsID = string.IsNullOrEmpty(arr[i + 4]) ? 0 : int.Parse(arr[i + 4]);
-                item.OriginSearchUrl = arr[i + 5];
-                item.LocalFilePath = arr[i + 6];
-                item.URL = arr[i + 7];
+                VkSong item = new VkSong {
+                    ID = arr[i],
+                    Artist = arr[i + 1],
+                    Title = arr[i + 2],
+                    Duration = int.Parse(arr[i + 3]),
+                    LyricsID = string.IsNullOrEmpty(arr[i + 4]) ? 0 : int.Parse(arr[i + 4]),
+                    OriginSearchUrl = arr[i + 5],
+                    LocalFilePath = arr[i + 6],
+                    URL = arr[i + 7]
+                };
                 list.Add(item);
             }
             return list;
@@ -301,9 +297,7 @@
                     {
                         if (successHandler == null)
                         {
-                            successHandler = delegate (string str) {
-                                new BigMessageBoxForm("Текст песни " + Artist + " - " + Title, str).ShowDialog();
-                            };
+                            successHandler = (Action<string>) (str => new BigMessageBoxForm("Текст песни " + Artist + " - " + Title, str).ShowDialog());
                         }
                         VkTools.GetLyrics(null, LyricsId, OriginSearchUrl, successHandler);
                     }

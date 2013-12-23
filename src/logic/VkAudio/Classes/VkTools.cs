@@ -97,14 +97,15 @@
                     {
                         str3 = str3.Replace("  ", " ");
                     }
-                    VkSong item = new VkSong();
-                    item.ID = str;
-                    item.Title = str5;
-                    item.Artist = str3;
-                    item.URL = str6;
-                    item.Duration = num6;
-                    item.LyricsID = num7;
-                    item.OriginSearchUrl = originalUrl;
+                    VkSong item = new VkSong {
+                        ID = str,
+                        Title = str5,
+                        Artist = str3,
+                        URL = str6,
+                        Duration = num6,
+                        LyricsID = num7,
+                        OriginSearchUrl = originalUrl
+                    };
                     list.Add(item);
                 }
             }
@@ -119,14 +120,15 @@
             {
                 foreach (Match match in regex.Matches(json))
                 {
-                    VkSong item = new VkSong();
-                    item.ID = match.Groups[1].Value + "_" + match.Groups[2].Value;
-                    item.Title = WebUtility.HtmlDecode(match.Groups[7].Value);
-                    item.Artist = WebUtility.HtmlDecode(match.Groups[6].Value);
-                    item.URL = match.Groups[3].Value;
-                    item.Duration = int.Parse(match.Groups[4].Value);
-                    item.LyricsID = string.IsNullOrEmpty(match.Groups[8].Value) ? 0 : int.Parse(match.Groups[8].Value);
-                    item.OriginSearchUrl = GenerateUrl(WebUtility.HtmlDecode(match.Groups[6].Value + " - " + match.Groups[7].Value), false);
+                    VkSong item = new VkSong {
+                        ID = match.Groups[1].Value + "_" + match.Groups[2].Value,
+                        Title = WebUtility.HtmlDecode(match.Groups[7].Value),
+                        Artist = WebUtility.HtmlDecode(match.Groups[6].Value),
+                        URL = match.Groups[3].Value,
+                        Duration = int.Parse(match.Groups[4].Value),
+                        LyricsID = string.IsNullOrEmpty(match.Groups[8].Value) ? 0 : int.Parse(match.Groups[8].Value),
+                        OriginSearchUrl = GenerateUrl(WebUtility.HtmlDecode(match.Groups[6].Value + " - " + match.Groups[7].Value), false)
+                    };
                     list.Add(item);
                 }
             }
@@ -258,7 +260,7 @@
                     totalCount = nullable.Value;
                     return source;
                 }
-                totalCount = Enumerable.Count<VkSong>(source);
+                totalCount = source.Count<VkSong>();
             }
             catch (ThreadAbortException)
             {
@@ -281,9 +283,7 @@
                 Settings settings = Settings.Load();
                 string str2 = SendVkPostRequest(GetRemixSid(settings.Email, settings.DecryptPass()), "http://vk.com/audio.php", OriginUrl, "act=getLyrics&lid=" + LyricsId.ToString());
                 result = WebUtility.HtmlDecode(str2).Replace("<br>", "\r\n");
-            }, false, "Получение текста песни", null, delegate (object ls, EventArgs le) {
-                result = null;
-            }, new Action(class2, (IntPtr) this.<GetLyrics>b__4));
+            }, false, "Получение текста песни", null, (EventHandler) ((ls, le) => (result = null)), new Action(class2, (IntPtr) this.<GetLyrics>b__4));
         }
 
         public static List<VkSong> GetMySongs(out int totalCount)
@@ -318,7 +318,7 @@
                     totalCount = int.Parse(str5);
                     return source;
                 }
-                totalCount = Enumerable.Count<VkSong>(source);
+                totalCount = source.Count<VkSong>();
             }
             catch (ThreadAbortException)
             {

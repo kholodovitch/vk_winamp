@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>local</ProjectType>
     <ProjectVersion>7.10.377</ProjectVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>369900c9-013a-42bb-94a9-ea1ece4f7ea5</ProjectGuid>
+    <ProjectGuid>{57DBE2E2-4F27-4744-B386-C33AB3FA9D7B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <AssemblyName>VkAudio</AssemblyName>
     <OutputType>Library</OutputType>
@@ -42,7 +42,9 @@
     <Compile Include="Global.cs" />
     <Compile Include="VkAudio\Classes\VkSongListExtension.cs" />
     <Compile Include="VkAudio\VkAudioClass.cs" />
-    <Compile Include="VkAudio\Forms\BigMessageBoxForm.cs" />
+    <Compile Include="VkAudio\Forms\BigMessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VkAudio\Classes\VkTools.cs" />
     <Compile Include="VkAudio\Classes\WinAPI.cs" />
     <Compile Include="VkAudio\Classes\UserException.cs" />
@@ -50,14 +52,24 @@
     <Compile Include="VkAudio\MarshalEx.cs" />
     <Compile Include="VkAudio\Classes\Serialization.cs" />
     <Compile Include="VkAudio\Classes\Common.cs" />
-    <Compile Include="VkAudio\Forms\LoadingForm.cs" />
-    <Compile Include="VkAudio\Forms\SettingsForm.cs" />
+    <Compile Include="VkAudio\Forms\LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VkAudio\Forms\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VkAudio\Classes\VkSong.cs" />
     <Compile Include="VkAudio\Classes\Settings.cs" />
-    <Compile Include="VkAudio\Controls\TrackBarEx.cs" />
-    <Compile Include="VkAudio\Controls\ListViewEx.cs" />
+    <Compile Include="VkAudio\Controls\TrackBarEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VkAudio\Controls\ListViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="VkAudio\Classes\SecurityTools.cs" />
-    <Compile Include="VkAudio\Forms\SearchForm.cs" />
+    <Compile Include="VkAudio\Forms\SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VkAudio\Properties\Resources.cs" />
     <Compile Include="VkAudio\Classes\ThreadOperation.cs" />
     <Compile Include="VkAudio\Classes\ThreadWorker.cs" />
