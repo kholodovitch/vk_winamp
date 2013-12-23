@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>369900c9-013a-42bb-94a9-ea1ece4f7ea5</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>VkAudio</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="taglib-sharp" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Management" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="VkAudio\Classes\VkSongListExtension.cs" />
+    <Compile Include="VkAudio\VkAudioClass.cs" />
+    <Compile Include="VkAudio\Forms\BigMessageBoxForm.cs" />
+    <Compile Include="VkAudio\Classes\VkTools.cs" />
+    <Compile Include="VkAudio\Classes\WinAPI.cs" />
+    <Compile Include="VkAudio\Classes\UserException.cs" />
+    <Compile Include="VkAudio\Classes\PlayerState.cs" />
+    <Compile Include="VkAudio\MarshalEx.cs" />
+    <Compile Include="VkAudio\Classes\Serialization.cs" />
+    <Compile Include="VkAudio\Classes\Common.cs" />
+    <Compile Include="VkAudio\Forms\LoadingForm.cs" />
+    <Compile Include="VkAudio\Forms\SettingsForm.cs" />
+    <Compile Include="VkAudio\Classes\VkSong.cs" />
+    <Compile Include="VkAudio\Classes\Settings.cs" />
+    <Compile Include="VkAudio\Controls\TrackBarEx.cs" />
+    <Compile Include="VkAudio\Controls\ListViewEx.cs" />
+    <Compile Include="VkAudio\Classes\SecurityTools.cs" />
+    <Compile Include="VkAudio\Forms\SearchForm.cs" />
+    <Compile Include="VkAudio\Properties\Resources.cs" />
+    <Compile Include="VkAudio\Classes\ThreadOperation.cs" />
+    <Compile Include="VkAudio\Classes\ThreadWorker.cs" />
+    <Compile Include="VkAudio\Classes\ControlExtension.cs" />
+    <EmbeddedResource Include="VkAudio.Forms.LoadingForm.resources" />
+    <EmbeddedResource Include="VkAudio.Properties.Resources.resources" />
+    <EmbeddedResource Include="VkAudio.Forms.SettingsForm.resources" />
+    <EmbeddedResource Include="VkAudio.Forms.SearchForm.resources" />
+    <EmbeddedResource Include="VkAudio.Forms.BigMessageBoxForm.resources" />
+  </ItemGroup>
+</Project>
