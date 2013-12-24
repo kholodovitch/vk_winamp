@@ -103,5 +103,11 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\api\ApiCore\ApiCore.csproj">
+      <Project>{6885b1cf-b02d-4ab0-9f5c-a3ee4974655c}</Project>
+      <Name>ApiCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
