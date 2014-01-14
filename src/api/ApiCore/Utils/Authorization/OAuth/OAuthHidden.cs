@@ -45,6 +45,14 @@ namespace ApiCore.Utils.Authorization
 			string postHtml = Encoding.UTF8.GetString(postContent);
 			File.WriteAllText("post.html", postHtml);
 
+			formHtml = GetFormHtml(postHtml);
+			formAction = GetFormAction(formHtml);
+			formParams = GetFormParams(formHtml);
+
+			byte[] accessContent = GetResponse(formAction, x => WritePostData(x, formParams));
+			string accessHtml = Encoding.GetEncoding(1251).GetString(accessContent);
+			File.WriteAllText("access.html", accessHtml);
+
 			return SessionData;
 		}
 
