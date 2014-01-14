@@ -27,8 +27,8 @@ namespace ApiCore.Utils.Authorization
 			const string blankHtml = "http://oauth.vk.com/blank.html";
 			string startUrl = string.Format("http://oauth.vk.com/oauth/authorize?redirect_uri={0}&response_type=token&client_id={1}&scope={2}&display=wap&no_session=1", blankHtml, appId, scope);
 
-			byte[] content = GetResponse(startUrl);
-			string authorizeHtml = Encoding.UTF8.GetString(content);
+			HttpResult content = GetResponse(startUrl);
+			string authorizeHtml = Encoding.UTF8.GetString(content.Array);
 
 			// remove script element for prevent redirecting to remote page
 			string authorizeHtmlLocal = authorizeHtml.Substring(0, authorizeHtml.IndexOf("<script")) + authorizeHtml.Substring(authorizeHtml.IndexOf("</script>") + "</script>".Length);
@@ -41,19 +41,48 @@ namespace ApiCore.Utils.Authorization
 			formParams["email"] = _email;
 			formParams["pass"] = _pass;
 
-			byte[] postContent = GetResponse(formAction, x => WritePostData(x, formParams));
-			string postHtml = Encoding.UTF8.GetString(postContent);
-			File.WriteAllText("post.html", postHtml);
+			HttpResult postContent = GetResponse(formAction, x => WritePostData(x, formParams));
+			if (postContent.ResponseUri.AbsolutePath != "/blank.html")
+			{
+				string postHtml = Encoding.UTF8.GetString(postContent.Array);
+				File.WriteAllText("post.html", postHtml);
 
-			formHtml = GetFormHtml(postHtml);
-			formAction = GetFormAction(formHtml);
-			formParams = GetFormParams(formHtml);
+				formHtml = GetFormHtml(postHtml);
+				formAction = GetFormAction(formHtml);
+				formParams = GetFormParams(formHtml);
 
-			byte[] accessContent = GetResponse(formAction, x => WritePostData(x, formParams));
-			string accessHtml = Encoding.GetEncoding(1251).GetString(accessContent);
-			File.WriteAllText("access.html", accessHtml);
+				postContent = GetResponse(formAction, x => WritePostData(x, formParams));
+			}
+
+			if (postContent.ResponseUri.AbsolutePath != @"/blank.html")
+				throw new NotImplementedException();
+
+			GetSessionData(postContent);
 
 			return SessionData;
+		}
+
+		private void GetSessionData(HttpResult accessContent)
+		{
+			SessionData = new OAuthSessionInfo();
+
+			string[] fragments = accessContent.ResponseUri.Fragment.Substring(1).Split('&');
+			foreach (string fragment in fragments)
+			{
+				string[] fragmentNameValue = fragment.Split('=');
+				switch (fragmentNameValue[0])
+				{
+					case "access_token":
+						SessionData.Token = fragmentNameValue[1];
+						break;
+					case "expires_in":
+						SessionData.Expire = int.Parse(fragmentNameValue[1]);
+						break;
+					case "user_id":
+						SessionData.UserId = int.Parse(fragmentNameValue[1]);
+						break;
+				}
+			}
 		}
 
 		private static string GetFormHtml(string html)
@@ -92,7 +121,7 @@ namespace ApiCore.Utils.Authorization
 			datastream.Close();
 		}
 
-		private static byte[] GetResponse(string startUrl, Action<HttpWebRequest> requestAction = null)
+		private static HttpResult GetResponse(string startUrl, Action<HttpWebRequest> requestAction = null)
 		{
 			var request = (HttpWebRequest) WebRequest.Create(startUrl);
 
@@ -105,12 +134,12 @@ namespace ApiCore.Utils.Authorization
 			return GetRetArray(request);
 		}
 
-		private static byte[] GetRetArray(WebRequest request)
+		private static HttpResult GetRetArray(HttpWebRequest request)
 		{
 			const int maxPacketByteSize = 64*1024;
-			byte[] retArray = null;
+			var ret = new HttpResult();
 
-			using (WebResponse response = request.GetResponse())
+			using (var response = (HttpWebResponse) request.GetResponse())
 			{
 				using (Stream respStream = response.GetResponseStream())
 				{
@@ -125,12 +154,14 @@ namespace ApiCore.Utils.Authorization
 							{
 								fileStream.Write(buffer, 0, read);
 							}
-							retArray = fileStream.ToArray();
+							ret.Array = fileStream.ToArray();
 						}
 					}
 				}
+				ret.Encoding = response.ContentEncoding;
+				ret.ResponseUri = response.ResponseUri;
 			}
-			return retArray;
+			return ret;
 		}
 
 		private static string DictToString(Dictionary<string, string> dict)
@@ -141,6 +172,13 @@ namespace ApiCore.Utils.Authorization
 				builder.Append(kvp.Key + "=" + kvp.Value + "&");
 
 			return builder.ToString();
+		}
+
+		private class HttpResult
+		{
+			public byte[] Array;
+			public string Encoding;
+			public Uri ResponseUri;
 		}
 	}
 }
