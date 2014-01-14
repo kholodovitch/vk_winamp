@@ -35,18 +35,9 @@ namespace ApiCore.Utils.Authorization
 			authorizeHtmlLocal = authorizeHtmlLocal.Replace("href=\"/", "href=\"http://oauth.vk.com/");
 			File.WriteAllText("index.html", authorizeHtmlLocal);
 
-			string formStart = "<form";
-			string formEnd = "</form>";
-			int startFormTag = authorizeHtml.IndexOf(formStart);
-			int endFormTag = authorizeHtml.IndexOf(formEnd);
-			string formHtml = authorizeHtml.Substring(startFormTag, endFormTag + formEnd.Length - startFormTag);
-			string formAction = Regex.Match(formHtml, @"action\=\""(.*)\""").Groups[1].Value;
-
-			const string formParamsPattern = @"\<input .+ name=\""(.*)\"" value=\""(.*)\"".*>";
-			var foundFormParams = Regex.Matches(formHtml, formParamsPattern);
-			var formParams = new Dictionary<string, string>();
-			foreach (Match match in foundFormParams)
-				formParams[match.Groups[1].Value] = match.Groups[2].Value;
+			string formHtml = GetFormHtml(authorizeHtml);
+			string formAction = GetFormAction(formHtml);
+			Dictionary<string, string> formParams = GetFormParams(formHtml);
 			formParams["email"] = _email;
 			formParams["pass"] = _pass;
 
@@ -55,6 +46,30 @@ namespace ApiCore.Utils.Authorization
 			File.WriteAllText("post.html", postHtml);
 
 			return SessionData;
+		}
+
+		private static string GetFormHtml(string html)
+		{
+			const string formStart = "<form";
+			const string formEnd = "</form>";
+			int startFormTag = html.IndexOf(formStart);
+			int endFormTag = html.IndexOf(formEnd);
+			return html.Substring(startFormTag, endFormTag + formEnd.Length - startFormTag);
+		}
+
+		private static string GetFormAction(string formHtml)
+		{
+			return Regex.Match(formHtml, @"action\=\""(.*)\""").Groups[1].Value;
+		}
+
+		private static Dictionary<string, string> GetFormParams(string formHtml)
+		{
+			const string formParamsPattern = @"\<input .+ name=\""(.*)\"" value=\""(.*)\"".*>";
+			MatchCollection foundFormParams = Regex.Matches(formHtml, formParamsPattern);
+			var formParams = new Dictionary<string, string>();
+			foreach (Match match in foundFormParams)
+				formParams[match.Groups[1].Value] = match.Groups[2].Value;
+			return formParams;
 		}
 
 		private static void WritePostData(HttpWebRequest request, Dictionary<string, string> formParams)
