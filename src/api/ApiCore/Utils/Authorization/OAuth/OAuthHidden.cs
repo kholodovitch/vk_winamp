@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Text;
-using System.Xml;
-using HtmlAgilityPack;
 
 namespace ApiCore.Utils.Authorization
 {
@@ -28,17 +25,15 @@ namespace ApiCore.Utils.Authorization
 			string startUrl = string.Format("http://oauth.vk.com/oauth/authorize?redirect_uri={0}&response_type=token&client_id={1}&scope={2}&display=wap&no_session=1", blankHtml, appId, scope);
 
 			byte[] content = GetResponse(startUrl);
-			var t = Encoding.UTF8.GetString(content);
+			var authorizeHtml = Encoding.UTF8.GetString(content);
+
+			// remove script element for prevent redirecting to remote page
+			var authorizeHtmlLocal = authorizeHtml.Substring(0, authorizeHtml.IndexOf("<script")) + authorizeHtml.Substring(authorizeHtml.IndexOf("</script>") + "</script>".Length);
+			authorizeHtmlLocal = authorizeHtmlLocal.Replace("href=\"/", "href=\"http://oauth.vk.com/");
+			File.WriteAllText("index.html", authorizeHtmlLocal);
+
 			string formStart = "<form";
-			int startFormTag = t.IndexOf(formStart) - formStart.Length;
-
-
-			var htmlDocument = new HtmlDocument();
-			using (var stream = new MemoryStream(content))
-				htmlDocument.Load(stream);
-			var t = htmlDocument.DocumentNode.SelectNodes("//form");
-			t.ToString();
-
+			int startFormTag = authorizeHtml.IndexOf(formStart) - formStart.Length;
 
 			return SessionData;
 		}
