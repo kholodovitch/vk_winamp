@@ -102,17 +102,21 @@ namespace VkAudio.Classes
       });
       th = new Thread((ThreadStart) (() =>
       {
+#if !DEBUG
         try
+#endif
         {
           o();
           result = true;
         }
+#if !DEBUG
         catch (ThreadAbortException exception_0)
         {
         }
         catch (Exception exception_1)
         {
         }
+#endif
         if (Owner != null && Owner is Form)
           ControlExtension.InvokeOperation((Control) (Owner as Form), finalizer);
         else

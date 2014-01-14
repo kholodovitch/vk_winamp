@@ -634,14 +634,23 @@ namespace VkAudio.Forms
         if (this.rbSearch.Checked)
         {
           songs = VkTools.FindSongs(this.tbSearch.Text, this.cbPerformer.Checked, out this.totalCount);
-          this.lastUrl = VkTools.GenerateUrl(this.tbSearch.Text, this.cbPerformer.Checked);
+#if !DEBUG
+#error Add logic
+#endif
+          this.lastUrl = string.Empty;
         }
         if (this.rbMyAudio.Checked)
-          songs = VkTools.GetMySongs(out this.totalCount);
+        {
+	        songs = VkTools.GetMySongs();
+	        totalCount = songs.Count;
+        }
         if (!this.rbGroupPerson.Checked)
           return;
         songs = VkTools.GetGroupUserSongs(this.tbSearch.Text, out this.totalCount);
-        this.lastUrl = VkTools.GetGroupPersonAudioAddress(this.tbSearch.Text);
+#if !DEBUG
+#error Add logic
+#endif
+		this.lastUrl = string.Empty;
       }), false, "Идёт поиск...", new int?(), (EventHandler) ((ls, le) => VkTools.FreeResources()), (Action) (() =>
       {
         this.query = this.tbSearch.Text;

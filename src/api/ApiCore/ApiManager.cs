@@ -94,6 +94,11 @@ namespace ApiCore
             }
         }
 
+	    public int UserId
+	    {
+		    get { return session.UserId; }
+	    }
+
         /// <summary>
         /// Per-query timeout
         /// </summary>
