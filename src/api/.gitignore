@@ -1,0 +1,12 @@
+*.obj
+*.rar
+*.7z
+*.exe
+*.pdb
+[Oo]bj/
+*.dll
+/*.sln
+*.suo
+*.pidb
+
+/Examples/AudioDownloader(OAuth)/bin
