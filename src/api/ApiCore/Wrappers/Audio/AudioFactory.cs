@@ -42,7 +42,7 @@ namespace ApiCore.Audio
 
         private List<AudioEntry> buildList(XmlNode data)
         {
-            XmlNodeList nodes = data.SelectNodes("audio");
+			XmlNodeList nodes = data.SelectNodes("/response/audio");
             List<AudioEntry> audios = new List<AudioEntry>();
             foreach (XmlNode n in nodes)
             {

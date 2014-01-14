@@ -58,6 +58,8 @@ namespace ApiCore.Utils.Authorization
 				throw new NotImplementedException();
 
 			GetSessionData(postContent);
+			SessionData.AppId = appId;
+			SessionData.Scope = scope;
 
 			return SessionData;
 		}
