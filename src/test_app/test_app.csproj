@@ -52,9 +52,9 @@
       <Project>{6885b1cf-b02d-4ab0-9f5c-a3ee4974655c}</Project>
       <Name>ApiCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\logic\VkAudio.csproj">
+    <ProjectReference Include="..\logic\Logic.csproj">
       <Project>{57dbe2e2-4f27-4744-b386-c33ab3fa9d7b}</Project>
-      <Name>VkAudio</Name>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
